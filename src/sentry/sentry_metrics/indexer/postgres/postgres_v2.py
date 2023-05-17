@@ -197,8 +197,7 @@ class PGStringIndexerV2(StringIndexer):
                     for _, organization_id, string in accepted_keys.as_tuples()
                 ]
 
-            with metrics.timer("sentry_metrics.indexer.pg_bulk_create"):
-                self._bulk_create_with_retry(table, new_records)
+            self._bulk_create_with_retry(table, new_records)
 
         db_write_key_results = UseCaseKeyResults()
         db_write_key_results.add_use_case_key_results(
