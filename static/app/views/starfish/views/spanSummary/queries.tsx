@@ -314,7 +314,7 @@ export const useQueryGetUniqueTransactionCount = (options: {transactionName: str
   });
 };
 
-export const getSidebarSeriesQuery = ({
+const getSidebarSeriesQuery = ({
   description,
   transactionName,
   datetime,
@@ -345,7 +345,7 @@ export const getSidebarSeriesQuery = ({
   `;
 };
 
-export const getSidebarAggregatesQuery = ({
+const getSidebarAggregatesQuery = ({
   description,
   transactionName,
   datetime,
@@ -378,21 +378,7 @@ export const getSidebarAggregatesQuery = ({
  `;
 };
 
-export function getOverallAggregatesQuery(datetime) {
-  const {start_timestamp, end_timestamp} = datetimeToClickhouseFilterTimestamps(datetime);
-
-  return `
-    SELECT
-    count(DISTINCT transaction) AS count_overall_unique_transactions,
-    sum(exclusive_time) AS overall_total_exclusive_time
-    FROM spans_experimental_starfish
-    WHERE 1 == 1
-    ${start_timestamp ? `AND greaterOrEquals(start_timestamp, '${start_timestamp}')` : ''}
-    ${end_timestamp ? `AND lessOrEquals(start_timestamp, '${end_timestamp}')` : ''}
-  `;
-}
-
-export function getQueries(spanGroupOperation: string) {
+function getQueries(spanGroupOperation: string) {
   switch (spanGroupOperation) {
     case 'db':
     case 'cache':
