@@ -11,7 +11,7 @@ import Input from 'sentry/components/input';
 import * as Layout from 'sentry/components/layouts/thirds';
 import ExternalLink from 'sentry/components/links/externalLink';
 import PlatformPicker from 'sentry/components/platformPicker';
-import {canCreateProject} from 'sentry/components/projects/utils';
+import {canCreateProject} from 'sentry/components/projects/useProjectCreationAccess';
 import TeamSelector from 'sentry/components/teamSelector';
 import categoryList from 'sentry/data/platformCategories';
 import {IconAdd} from 'sentry/icons';
