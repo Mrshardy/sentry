@@ -9,14 +9,20 @@ export function handleXhrErrorResponse(message: string, err: RequestError): void
     return;
   }
 
-  const {responseJSON, status} = err;
+  const {responseJSON, status, message: causeMessage} = err;
 
   Sentry.withScope(scope => {
     scope.setExtras({
       status,
       responseJSON,
     });
-
+    scope.setTags({
+      responseStatus: status,
+      // Turn `GET /dogs/are/great 500` into just `GET /dogs/are/great`
+      ...(causeMessage && {
+        endpoint: causeMessage.replace(new RegExp(` ${status}$`), ''),
+      }),
+    });
     Sentry.captureException(
       // We need to typecheck here even though `err` is typed in the function
       // signature because TS doesn't type thrown or rejected errors
